@@ -1,0 +1,47 @@
+
+Configuracion del tablero:
+[
+X,	R,	A,	B,
+V,	R,	A,	B,
+V,	R,	A,	B,
+V,	R,	A,	B,
+V,	R,	A,	B
+]
+
+V: Bolitas verdes
+R: Bolitas rojas
+A: Bolitas azules
+B: Bolitas blancas
+X: Espacio libre
+
+
+Movimientos:
+Para definir un movimiento se toma en cuenta desde la posicion inicial hasta la final del
+espacio libre, de modo que hay que llevar control de la direccion y la cantidad de espacios a mover.
+Se escribe de la siguiente forma:
+	{ Direccion-Espacios }
+Donde
+Direccion:
+	N
+	S
+	E
+	O
+y Espacios:
+	1
+	2
+	3
+	4
+Como resultado quedan los siguientes movimientos posibles:
+	N-1, N-2, N-3, N-4
+	S-1, S-2, S-3, S-4
+	E-1, E-2, E-3, E-4
+	O-1, O-2, O-3, O-4
+
+Ejemplo:
+[									[			
+V,	X,	A,	B,						V,	R,	A,	B,
+V,	R,	A,	B,						V,	R,	A,	B,
+V,	R,	A,	B,		=> S-2 =>		V,	X,	A,	B,
+V,	R,	A,	B,						V,	R,	A,	B,
+V,	R,	A,	B 						V,	R,	A,	B 
+]									]			
