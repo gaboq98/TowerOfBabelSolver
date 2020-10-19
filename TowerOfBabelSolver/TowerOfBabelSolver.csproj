@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F237F0AF-54BB-4A4E-804C-F32A42FDE37A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>TowerOfBabelSolver</RootNamespace>
     <AssemblyName>TowerOfBabelSolver</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -33,6 +33,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -66,6 +69,23 @@
     <Compile Include="Controller\GameController.cs" />
     <Compile Include="Model\FileManager.cs" />
     <Compile Include="Model\Logic.cs" />
+    <Compile Include="Model\Movements\East1Move.cs" />
+    <Compile Include="Model\Movements\East2Move.cs" />
+    <Compile Include="Model\Movements\East3Move.cs" />
+    <Compile Include="Model\Movements\East4Move.cs" />
+    <Compile Include="Model\Movements\IMovable.cs" />
+    <Compile Include="Model\Movements\North1Move.cs" />
+    <Compile Include="Model\Movements\North2Move.cs" />
+    <Compile Include="Model\Movements\North3Move.cs" />
+    <Compile Include="Model\Movements\North4Move.cs" />
+    <Compile Include="Model\Movements\South1Move.cs" />
+    <Compile Include="Model\Movements\South2Move.cs" />
+    <Compile Include="Model\Movements\South3Move.cs" />
+    <Compile Include="Model\Movements\South4Move.cs" />
+    <Compile Include="Model\Movements\West1Move.cs" />
+    <Compile Include="Model\Movements\West2Move.cs" />
+    <Compile Include="Model\Movements\West3Move.cs" />
+    <Compile Include="Model\Movements\West4Move.cs" />
     <Compile Include="Model\Solver.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -31,6 +31,7 @@ y Espacios:
 	2
 	3
 	4
+
 Como resultado quedan los siguientes movimientos posibles:
 	N-1, N-2, N-3, N-4
 	S-1, S-2, S-3, S-4
@@ -45,3 +46,4 @@ V,	R,	A,	B,		=> S-2 =>		V,	X,	A,	B,
 V,	R,	A,	B,						V,	R,	A,	B,
 V,	R,	A,	B 						V,	R,	A,	B 
 ]									]			
+

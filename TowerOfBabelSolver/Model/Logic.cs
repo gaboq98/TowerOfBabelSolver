@@ -8,9 +8,15 @@ namespace TowerOfBabelSolver.Model
 {
     class Logic
     {
+
+        public string[,] StartMatrix{ get; set; }
+        public string[,] FinishMatrix { get; set; }
+
         public Logic()
         {
-
+            StartMatrix = FileManager.LoadStartMatrix();
+            FinishMatrix = FileManager.LoadFinishMatrix();
+            var foo = 0;
         }
     }
 }
