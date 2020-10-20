@@ -69,6 +69,7 @@
     <Compile Include="Controller\GameController.cs" />
     <Compile Include="Model\FileManager.cs" />
     <Compile Include="Model\Logic.cs" />
+    <Compile Include="Model\MatrixNode.cs" />
     <Compile Include="Model\Movements\East1Move.cs" />
     <Compile Include="Model\Movements\East2Move.cs" />
     <Compile Include="Model\Movements\East3Move.cs" />

@@ -13,7 +13,7 @@
                 <GradientStop Color="White" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Label Content="Label" HorizontalAlignment="Left" Margin="141,194,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="137" Width="100" FontStretch="Expanded" FontStyle="Italic" FontSize="20" FontWeight="ExtraBlack" Cursor="Hand">
+        <Label Content="Label" HorizontalAlignment="Left" Margin="118,82,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="137" Width="100" FontStretch="Expanded" FontStyle="Italic" FontSize="20" FontWeight="ExtraBlack" Cursor="Hand">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <GradientStop Color="#FFA82C2C" Offset="1"/>
@@ -24,7 +24,7 @@
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
-                    <RotateTransform Angle="-48.945"/>
+                    <RotateTransform Angle="0.434"/>
                     <TranslateTransform X="11.807" Y="25.94"/>
                 </TransformGroup>
             </Label.RenderTransform>
