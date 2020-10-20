@@ -16,7 +16,7 @@ namespace TowerOfBabelSolver.Model
         public static string[,] LoadStartMatrix()
         {
             // Read the file as one string.
-            string text = System.IO.File.ReadAllText(@"D:\Usuarios\gaboq\Escritorio\Gabo\TEC\IA\TowerOfBabelSolver\EstadoInicial.txt");
+            string text = System.IO.File.ReadAllText(@"C:\Users\Jean Paul\Desktop\EstadoInicial.txt");
 
             // Display the file contents to the console. Variable text is a string.
             string[] sep = { "\n", "\t", ",", "\r", " " };
@@ -32,7 +32,7 @@ namespace TowerOfBabelSolver.Model
         public static string[,] LoadFinishMatrix()
         {
             // Read the file as one string.
-            string text = System.IO.File.ReadAllText(@"D:\Usuarios\gaboq\Escritorio\Gabo\TEC\IA\TowerOfBabelSolver\EstadoFinal.txt");
+            string text = System.IO.File.ReadAllText(@"C:\Users\Jean Paul\Desktop\EstadoFinal.txt");
 
             // Display the file contents to the console. Variable text is a string.
             string[] sep = { "\n", "\t", ",", "\r" };

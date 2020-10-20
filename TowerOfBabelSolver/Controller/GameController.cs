@@ -21,6 +21,9 @@ namespace TowerOfBabelSolver.Controller
             FileManager = new FileManager();
             GameLogic = new Logic();
             GameSolver = new Solver();
+            var r = FileManager.LoadStartMatrix();
+            MatrixNode n = new MatrixNode(r);
+            Console.WriteLine("valor " + n.calculateHeuristFunction());
         }
     }
 }

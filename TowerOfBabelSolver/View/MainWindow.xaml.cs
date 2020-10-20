@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TowerOfBabelSolver.Controller;
+using TowerOfBabelSolver.Model;
 
 namespace TowerOfBabelSolver
 {
