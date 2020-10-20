@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace TowerOfBabelSolver.Model.Movements
 {
-    class East3Move : IMovable
+    class East3Move : Movable
     {
-        public string GetString()
+        public override string GetString()
+        {
+            return "E-3";
+        }
+
+        public override bool IsValid()
         {
             throw new NotImplementedException();
         }
 
-        public void IsValid()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Move()
+        public override string[,] Move()
         {
             throw new NotImplementedException();
         }

@@ -4,7 +4,6 @@ Configuracion del tablero:
 X,	R,	A,	B,
 V,	R,	A,	B,
 V,	R,	A,	B,
-V,	R,	A,	B,
 V,	R,	A,	B
 ]
 
@@ -42,8 +41,7 @@ Ejemplo:
 [									[			
 V,	X,	A,	B,						V,	R,	A,	B,
 V,	R,	A,	B,						V,	R,	A,	B,
-V,	R,	A,	B,		=> S-2 =>		V,	X,	A,	B,
+V,	R,	A,	B,		=> S-2 =>			V,	X,	A,	B,
 V,	R,	A,	B,						V,	R,	A,	B,
-V,	R,	A,	B 						V,	R,	A,	B 
 ]									]			
 

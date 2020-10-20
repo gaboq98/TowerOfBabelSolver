@@ -16,7 +16,6 @@ namespace TowerOfBabelSolver.Model
         {
             StartMatrix = FileManager.LoadStartMatrix();
             FinishMatrix = FileManager.LoadFinishMatrix();
-            var foo = 0;
         }
     }
 }
