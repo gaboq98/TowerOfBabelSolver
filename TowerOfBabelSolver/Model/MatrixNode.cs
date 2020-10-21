@@ -9,23 +9,29 @@ namespace TowerOfBabelSolver.Model
     class MatrixNode
     {
         private string[,] matrix;
-        private List<int> sucesors = new List<int>();
-        private int id=0;
+        private List<MatrixNode> sucesors = new List<MatrixNode>();
+        private int id;
         private string[,] finishMatrix = FileManager.LoadFinishMatrix();
         public string[,] Matrix { get=> matrix; set=>matrix=value ; }
-        public List<int> Sucesors { get => sucesors; set => sucesors = value; }
+        public List<MatrixNode> Sucesors { get => sucesors; set => sucesors = value; }
         public int Id { get => id; set => id = value; }
+        Random rnd = new Random();
 
         public MatrixNode(string[,] matrix) {
             this.matrix = matrix;
-            this.id += 1;
+            this.id = generateId();
         }
 
+        /**/
         public double calculateEvaluationFunction() {
-            double h = calculateEvaluationFunction();
+            double h = calculateHeuristFunction();
             int g = calculateCost();
             double f = g + (1/19)*h;
             return f;
+        }
+
+        public int generateId() {
+            return rnd.Next(1,985655652);
         }
 
         public int calculateCost() {
