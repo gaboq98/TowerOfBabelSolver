@@ -23,18 +23,9 @@ namespace TowerOfBabelSolver.Model.Movements
             string[,] result = (string[,])matrix.Clone();
             int[] index = GetFreeSpaceIndex(result);
             string replace;
-            if (index[1] - 1 == -1)
-            {
-                replace = result[index[0], result.GetLength(1) - 1];
-                result[index[0], index[1]] = replace;
-                result[index[0], result.GetLength(1) - 1] = "X";
-            }
-            else
-            {
-                replace = result[index[0], index[1] - 1];
-                result[index[0], index[1]] = replace;
-                result[index[0], index[1] - 1] = "X";
-            }
+            replace = result[index[0], (index[1] - 1) % 4];
+            result[index[0], index[1]] = replace;
+            result[index[0], (index[1] - 1) % 4] = "X";
             return result;
         }
     }

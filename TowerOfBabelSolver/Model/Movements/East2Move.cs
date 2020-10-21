@@ -22,19 +22,12 @@ namespace TowerOfBabelSolver.Model.Movements
         {
             string[,] result = (string[,])matrix.Clone();
             int[] index = GetFreeSpaceIndex(result);
-            string replace;
-            if (index[1] + 1 < result.GetLength(1))
-            {
-                replace = result[index[0], index[1] + 1];
-                result[index[0], index[1]] = replace;
-                result[index[0], index[1] + 1] = "X";
-            }
-            else
-            {
-                replace = result[index[0], 0];
-                result[index[0], index[1]] = replace;
-                result[index[0], 0] = "X";
-            }
+            string replace1, replace2;
+            replace1 = result[index[0], (index[1] + 1) % 4];
+            replace2 = result[index[0], (index[1] + 2) % 4];
+            result[index[0], index[1]] = replace1;
+            result[index[0], (index[1] + 2) % 4] = replace2;
+            result[index[0], (index[1] + 2) % 4] = "X";
             return result;
         }
     }

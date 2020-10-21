@@ -22,8 +22,6 @@ namespace TowerOfBabelSolver.Model.Movements
                             return new North2Move();
                         case 3:
                             return new North3Move();
-                        case 4:
-                            return new North4Move();
                         default:
                             return null;
                     }
@@ -36,8 +34,6 @@ namespace TowerOfBabelSolver.Model.Movements
                             return new South2Move();
                         case 3:
                             return new South3Move();
-                        case 4:
-                            return new South4Move();
                         default:
                             return null;
                     }
@@ -50,8 +46,6 @@ namespace TowerOfBabelSolver.Model.Movements
                             return new East2Move();
                         case 3:
                             return new East3Move();
-                        case 4:
-                            return new East4Move();
                         default:
                             return null;
                     }
@@ -64,8 +58,6 @@ namespace TowerOfBabelSolver.Model.Movements
                             return new West2Move();
                         case 3:
                             return new West3Move();
-                        case 4:
-                            return new West4Move();
                         default:
                             return null;
                     }
