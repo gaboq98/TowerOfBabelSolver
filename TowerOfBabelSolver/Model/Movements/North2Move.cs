@@ -6,19 +6,24 @@ using System.Threading.Tasks;
 
 namespace TowerOfBabelSolver.Model.Movements
 {
-    class North2Move : IMovable
+    class North2Move : Movable
     {
-        public string GetString()
+        public override string GetString()
         {
-            throw new NotImplementedException();
+            return "N-2";
         }
 
-        public void IsValid()
+        public override bool IsValid(string[,] matrix)
         {
-            throw new NotImplementedException();
+            int[] index = GetFreeSpaceIndex(matrix);
+            if (index[0]-2 <= -1)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public void Move()
+        public override string[,] Move(string[,] matrix)
         {
             throw new NotImplementedException();
         }
