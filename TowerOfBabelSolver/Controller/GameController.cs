@@ -23,6 +23,7 @@ namespace TowerOfBabelSolver.Controller
             GameSolver = new Solver();
             var r = FileManager.LoadStartMatrix();
             MatrixNode n = new MatrixNode(r);
+            GameLogic.aStartSearch();
             Console.WriteLine("valor " + n.calculateHeuristFunction());
         }
     }
