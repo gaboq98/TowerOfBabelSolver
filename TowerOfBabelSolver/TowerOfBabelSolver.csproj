@@ -74,7 +74,8 @@
     <Compile Include="Model\Movements\East2Move.cs" />
     <Compile Include="Model\Movements\East3Move.cs" />
     <Compile Include="Model\Movements\East4Move.cs" />
-    <Compile Include="Model\Movements\IMovable.cs" />
+    <Compile Include="Model\Movements\Movable.cs" />
+    <Compile Include="Model\Movements\MovesFactory.cs" />
     <Compile Include="Model\Movements\North1Move.cs" />
     <Compile Include="Model\Movements\North2Move.cs" />
     <Compile Include="Model\Movements\North3Move.cs" />
