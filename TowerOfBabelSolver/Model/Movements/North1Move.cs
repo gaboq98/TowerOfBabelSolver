@@ -14,14 +14,25 @@ namespace TowerOfBabelSolver.Model.Movements
             return "N-1";
         }
 
-        public override bool IsValid()
+        public override bool IsValid(string[,] matrix)
         {
-            throw new NotImplementedException();
+            int[] index = GetFreeSpaceIndex(matrix);
+            if (index[0]-1 <= -1)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public override string[,] Move()
+        public override string[,] Move(string[,] matrix)
         {
-            throw new NotImplementedException();
+            string[,] result = (string[,])matrix.Clone();
+            int[] index = GetFreeSpaceIndex(result);
+            string replace;
+            replace = result[index[0] - 1, index[1]];
+            result[index[0], index[1]] = replace;
+            result[index[0] - 1, index[1]] = "X";
+            return result;
         }
     }
 }

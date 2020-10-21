@@ -13,7 +13,7 @@ namespace TowerOfBabelSolver.Model.Movements
         {
             switch (type)
             {
-                case 1:     // North
+                case 0:     // North
                     switch (range)
                     {
                         case 1:
@@ -27,7 +27,7 @@ namespace TowerOfBabelSolver.Model.Movements
                         default:
                             return null;
                     }
-                case 2:     // South
+                case 1:     // South
                     switch (range)
                     {
                         case 1:
@@ -41,7 +41,7 @@ namespace TowerOfBabelSolver.Model.Movements
                         default:
                             return null;
                     }
-                case 3:     // East
+                case 2:     // East
                     switch (range)
                     {
                         case 1:
@@ -55,7 +55,7 @@ namespace TowerOfBabelSolver.Model.Movements
                         default:
                             return null;
                     }
-                case 4:     // West
+                case 3:     // West
                     switch (range)
                     {
                         case 1:

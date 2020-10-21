@@ -11,13 +11,23 @@ namespace TowerOfBabelSolver.Model.Movements
 
         public enum TOKEN { X, V, R, A, B };
 
-        public abstract string[,] Move();
-        public abstract bool IsValid();
+        public abstract string[,] Move(string[,] matrix);
+        public abstract bool IsValid(string[,] matrix);
         public abstract string GetString();
 
-        public int[] GetFreeSpaceIndex(string[,] matrix)
+        protected static int[] GetFreeSpaceIndex(string[,] matrix)
         {
-            return new int[] { 0, 1 };
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (matrix[i,j] == "X")
+                    {
+                        return new int[] { i, j };
+                    }
+                }
+            }
+            return null;
         }
 
     }
