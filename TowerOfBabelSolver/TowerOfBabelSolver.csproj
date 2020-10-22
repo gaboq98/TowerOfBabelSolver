@@ -73,22 +73,17 @@
     <Compile Include="Model\Movements\East1Move.cs" />
     <Compile Include="Model\Movements\East2Move.cs" />
     <Compile Include="Model\Movements\East3Move.cs" />
-    <Compile Include="Model\Movements\East4Move.cs" />
     <Compile Include="Model\Movements\Movable.cs" />
     <Compile Include="Model\Movements\MovesFactory.cs" />
     <Compile Include="Model\Movements\North1Move.cs" />
     <Compile Include="Model\Movements\North2Move.cs" />
     <Compile Include="Model\Movements\North3Move.cs" />
-    <Compile Include="Model\Movements\North4Move.cs" />
     <Compile Include="Model\Movements\South1Move.cs" />
     <Compile Include="Model\Movements\South2Move.cs" />
     <Compile Include="Model\Movements\South3Move.cs" />
-    <Compile Include="Model\Movements\South4Move.cs" />
     <Compile Include="Model\Movements\West1Move.cs" />
     <Compile Include="Model\Movements\West2Move.cs" />
     <Compile Include="Model\Movements\West3Move.cs" />
-    <Compile Include="Model\Movements\West4Move.cs" />
-    <Compile Include="Model\Solver.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -120,6 +115,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="View\babel.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

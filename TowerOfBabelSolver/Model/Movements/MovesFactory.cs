@@ -9,6 +9,8 @@ namespace TowerOfBabelSolver.Model.Movements
     class MovesFactory
     {
 
+        public enum TYPE { N, S, E, O };
+
         public static Movable GetInstance(int type, int range)
         {
             switch (type)

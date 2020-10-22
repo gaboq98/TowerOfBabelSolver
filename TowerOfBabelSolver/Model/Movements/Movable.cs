@@ -9,8 +9,6 @@ namespace TowerOfBabelSolver.Model.Movements
     abstract class Movable
     {
 
-        public enum TOKEN { X, V, R, A, B };
-
         public abstract string[,] Move(string[,] matrix);
         public abstract bool IsValid(string[,] matrix);
         public abstract string GetString();
