@@ -14,12 +14,12 @@ namespace TowerOfBabelSolver.Model.Movements
             return "S-2";
         }
 
-        public override bool IsValid()
+        public override bool IsValid(string[,] matrix)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
-        public override string[,] Move()
+        public override string[,] Move(string[,] matrix)
         {
             throw new NotImplementedException();
         }
