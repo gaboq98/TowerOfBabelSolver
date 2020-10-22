@@ -19,21 +19,11 @@ namespace TowerOfBabelSolver.Controller
         {
             StartWindow = startWindow;
             FileManager = new FileManager();
-            /*GameLogic = new Logic();
+            GameLogic = new Logic();
             var r = FileManager.LoadStartMatrix();
             MatrixNode n = new MatrixNode(r);
             GameLogic.aStartSearch();
-            Console.WriteLine("valor " + n.calculateHeuristFunction());*/
-
-            for(int i = 0; i <= 4; i++)
-            {
-                for (int j = 0; j <= 4; j++)
-                {
-                    Movable aux = MovesFactory.GetInstance(i,j);
-                    MatrixNode child = new MatrixNode(aux.Move(FileManager.LoadStartMatrix()));
-                    child.movimientos.add(aux);
-                }
-            }
+            Console.WriteLine("valor " + n.calculateHeuristFunction());
 
         }
     }

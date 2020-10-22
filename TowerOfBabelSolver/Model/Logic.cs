@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerOfBabelSolver.Model.Movements;
 
 namespace TowerOfBabelSolver.Model
 {
@@ -47,42 +48,40 @@ namespace TowerOfBabelSolver.Model
         }
 
         /* A* algorithm */
-        public void aStartSearch() { 
+        public void aStartSearch() {
             if (this.openList.Count == 0) {
                 MatrixNode newNode = new MatrixNode(StartMatrix);
-                closedList.Add(newNode);
-                int[] index = getIndex(StartMatrix);
-                string[,] m = newNode.Matrix;
-                AddChildren(newNode.Id,m , index, newNode);
+                newNode.Sucesors.Add(newNode);
+                AddChildren(newNode);
             }
             bool found = false;
+            MatrixNode minNode = null;
             while (!found) {
-                MatrixNode minNode = CalculateMin();
+                minNode = CalculateMin();
                 if (minNode.calculateHeuristFunction() == 0)
                 {
                     found = true;
                 }
-                else {
+                else
+                {
                     int indexR = IndexToRemove(minNode.Id);
                     if (indexR == -1)
                     {
                         Console.WriteLine("Hay un error");
                         Console.WriteLine(string.Join(" ", minNode.Matrix));
-                        break;
                     }
                     else
                     {
                         openList.RemoveAt(indexR);
-                        int[] index = getIndex(minNode.Matrix);
-                        AddChildren(minNode.Id, minNode.Matrix, index, minNode);
-                        closedList.Add(minNode);
+                        AddChildren(minNode);
                     }
                 }
             }
+            Console.WriteLine("Hay un error");
         }
 
         public MatrixNode CalculateMin() {
-            double minValue = this.openList[0].calculateEvaluationFunction();
+            double minValue = 999;
             MatrixNode minNode=null;
             foreach (MatrixNode m in this.openList) {
                 double value = m.calculateEvaluationFunction();
@@ -103,61 +102,23 @@ namespace TowerOfBabelSolver.Model
             return -1;
         }
 
-        public void AddChildren(int id,string[,] matrix, int[] index, MatrixNode node) {
-            string[,] updatedMatrix;
-            //UP => i-1 , j 
-            string[,] oldMatrix = (string[,])matrix.Clone();
-            if (isUniquePosition(node, index[0] - 1, index[1])){
-                updatedMatrix = MoveTokens(oldMatrix, "up");
-                MatrixNode newNode = new MatrixNode(updatedMatrix);
-                List<MatrixNode> list = node.Sucesors;
-                foreach (MatrixNode m in list) { 
-                    newNode.Sucesors.Add(m);    
-                }
-                newNode.Sucesors.Add(newNode);
-                this.openList.Add(newNode);
-            }
-            //DOWN => i+1 , j
-            string[,] oldMatrix1 = (string[,])matrix.Clone();
-            if (isUniquePosition(node, index[0] + 1, index[1]))
+        public void AddChildren(MatrixNode node) {
+
+            for (int i = 0; i < 4; i++)
             {
-                updatedMatrix = MoveTokens(oldMatrix1, "down");
-                MatrixNode newNode = new MatrixNode(updatedMatrix);
-                List<MatrixNode> list = node.Sucesors;
-                foreach (MatrixNode m in list)
+                for (int j = 0; j < 3; j++)
                 {
-                    newNode.Sucesors.Add(m);
+                    Movable aux = MovesFactory.GetInstance(i, j);
+                    if (aux.IsValid(node.Matrix))
+                    {
+                        MatrixNode child = new MatrixNode(aux.Move(node.Matrix));
+                        child.Sucesors.AddRange(node.Sucesors);
+                        child.Sucesors.Add(child);
+                        child.Moves.AddRange(node.Moves);
+                        child.Moves.Add(aux);
+                        openList.Add(child);
+                    }
                 }
-                newNode.Sucesors.Add(newNode);
-                this.openList.Add(newNode);
-            }
-            //RIGHT => i, j+1
-            string[,] oldMatrix2 = (string[,])matrix.Clone();
-            if (isUniquePosition(node, index[0], index[1]+1))
-            {
-                updatedMatrix = MoveTokens(oldMatrix2, "right");
-                MatrixNode newNode = new MatrixNode(updatedMatrix);
-                List<MatrixNode> list = node.Sucesors;
-                foreach (MatrixNode m in list)
-                {
-                    newNode.Sucesors.Add(m);
-                }
-                newNode.Sucesors.Add(newNode);
-                this.openList.Add(newNode);
-            }
-            //LEFT => i, j-1
-            string[,] oldMatrix3 = (string[,])matrix.Clone();
-            if (isUniquePosition(node, index[0], index[1] - 1))
-            {
-                updatedMatrix = MoveTokens(oldMatrix3, "left");
-                MatrixNode newNode = new MatrixNode(updatedMatrix);
-                List<MatrixNode> list = node.Sucesors;
-                foreach (MatrixNode m in list)
-                {
-                    newNode.Sucesors.Add(m);
-                }
-                newNode.Sucesors.Add(newNode);
-                this.openList.Add(newNode);
             }
         }
 

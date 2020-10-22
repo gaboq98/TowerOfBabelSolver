@@ -26,7 +26,7 @@ namespace TowerOfBabelSolver.Model.Movements
             replace1 = result[index[0], (index[1] + 1) % 4];
             replace2 = result[index[0], (index[1] + 2) % 4];
             result[index[0], index[1]] = replace1;
-            result[index[0], (index[1] + 2) % 4] = replace2;
+            result[index[0], (index[1] + 1) % 4] = replace2;
             result[index[0], (index[1] + 2) % 4] = "X";
             return result;
         }

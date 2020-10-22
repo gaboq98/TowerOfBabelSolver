@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerOfBabelSolver.Model.Movements;
 
 namespace TowerOfBabelSolver.Model
 {
@@ -17,9 +18,13 @@ namespace TowerOfBabelSolver.Model
         public int Id { get => id; set => id = value; }
         Random rnd = new Random();
 
+        public List<Movable> Moves { get; set; }
+
+
         public MatrixNode(string[,] matrix) {
             this.matrix = matrix;
             this.id = generateId();
+            Moves = new List<Movable>();
         }
 
         /**/
@@ -35,12 +40,12 @@ namespace TowerOfBabelSolver.Model
         }
 
         public int calculateCost() {
-            return this.sucesors.Count;
+            return this.sucesors.Count - 1;
         }
 
         public int calculateHeuristFunction() {
             int count = 0;
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
                     string objectiveValue = finishMatrix.GetValue(i, j).ToString();
                     string initialValue = this.matrix.GetValue(i, j).ToString();
