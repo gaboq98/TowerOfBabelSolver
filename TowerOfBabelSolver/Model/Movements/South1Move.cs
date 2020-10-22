@@ -16,7 +16,7 @@ namespace TowerOfBabelSolver.Model.Movements
         public override bool IsValid(string[,] matrix)
         {
             int[] index = GetFreeSpaceIndex(matrix);
-            if (index[0] + 1 == 4)
+            if (index[0] + 1 >= 4)
             {
                 return false;
             }
