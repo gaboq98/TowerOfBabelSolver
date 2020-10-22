@@ -35,7 +35,7 @@ namespace TowerOfBabelSolver.Model
 
         public int[] getIndex(string[,] matrix) {
             int[] index = new int[2];
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
                     if (matrix.GetValue(i, j).ToString() == "X") {
                         index[0]=i;
@@ -111,34 +111,22 @@ namespace TowerOfBabelSolver.Model
                     Movable aux = MovesFactory.GetInstance(i, j);
                     if (aux.IsValid(node.Matrix))
                     {
-                        MatrixNode child = new MatrixNode(aux.Move(node.Matrix));
-                        child.Sucesors.AddRange(node.Sucesors);
-                        child.Sucesors.Add(child);
-                        child.Moves.AddRange(node.Moves);
-                        child.Moves.Add(aux);
-                        openList.Add(child);
+                        int[] index = getIndex(aux.Move(node.Matrix));
+                        if (isUniquePosition(node, index[0], index[1]))
+                        {
+                            MatrixNode child = new MatrixNode(aux.Move(node.Matrix));
+                            child.Sucesors.AddRange(node.Sucesors);
+                            child.Sucesors.Add(child);
+                            child.Moves.AddRange(node.Moves);
+                            child.Moves.Add(aux);
+                            openList.Add(child);
+                        }
                     }
                 }
             }
         }
 
         public bool isUniquePosition(MatrixNode node, int i, int j) {
-            if (i >= 5) {
-                i = 4;
-                return false;
-            }
-            if (i < 0) {
-                i = 0;
-                return false;
-            }
-            if (j >= 4) {
-                j = 3;
-                return false;
-            }
-            if (j < 0) {
-                j = 0;
-                return false;
-            }
             List<MatrixNode> listOfSucesors = node.Sucesors;
             foreach (MatrixNode m in listOfSucesors) {
                 if (m.Matrix.GetValue(i, j).ToString() == "X") {
