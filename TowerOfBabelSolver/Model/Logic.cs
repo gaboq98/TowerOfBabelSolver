@@ -9,7 +9,6 @@ namespace TowerOfBabelSolver.Model
     class Logic
     {
         public List<MatrixNode> closedList = new List<MatrixNode>();
-        MatrixNode node;
         public List<MatrixNode> openList = new List<MatrixNode>();
         public string[,] StartMatrix{ get; set; }
         public string[,] FinishMatrix { get; set; }
@@ -50,10 +49,11 @@ namespace TowerOfBabelSolver.Model
         /* A* algorithm */
         public void aStartSearch() { 
             if (this.openList.Count == 0) {
-                this.node = new MatrixNode(StartMatrix);
-                closedList.Add(node);
+                MatrixNode newNode = new MatrixNode(StartMatrix);
+                closedList.Add(newNode);
                 int[] index = getIndex(StartMatrix);
-                AddChildren(node.Id, node.Matrix, index,this.node);
+                string[,] m = newNode.Matrix;
+                AddChildren(newNode.Id,m , index, newNode);
             }
             bool found = false;
             while (!found) {
@@ -67,6 +67,8 @@ namespace TowerOfBabelSolver.Model
                     if (indexR == -1)
                     {
                         Console.WriteLine("Hay un error");
+                        Console.WriteLine(string.Join(" ", minNode.Matrix));
+                        break;
                     }
                     else
                     {
@@ -83,7 +85,8 @@ namespace TowerOfBabelSolver.Model
             double minValue = this.openList[0].calculateEvaluationFunction();
             MatrixNode minNode=null;
             foreach (MatrixNode m in this.openList) {
-                if (m.calculateEvaluationFunction() <= minValue) {
+                double value = m.calculateEvaluationFunction();
+                if ( value <= minValue) {
                     minValue = m.calculateEvaluationFunction();
                     minNode = m; 
                 }
@@ -103,69 +106,77 @@ namespace TowerOfBabelSolver.Model
         public void AddChildren(int id,string[,] matrix, int[] index, MatrixNode node) {
             string[,] updatedMatrix;
             //UP => i-1 , j 
+            string[,] oldMatrix = (string[,])matrix.Clone();
             if (isUniquePosition(node, index[0] - 1, index[1])){
-                updatedMatrix = MoveTokens(matrix, "up");
-                this.node = new MatrixNode(updatedMatrix);
+                updatedMatrix = MoveTokens(oldMatrix, "up");
+                MatrixNode newNode = new MatrixNode(updatedMatrix);
                 List<MatrixNode> list = node.Sucesors;
                 foreach (MatrixNode m in list) { 
-                    this.node.Sucesors.Add(m);    
+                    newNode.Sucesors.Add(m);    
                 }
-                this.node.Sucesors.Add(this.node);
-                this.openList.Add(this.node);
+                newNode.Sucesors.Add(newNode);
+                this.openList.Add(newNode);
             }
             //DOWN => i+1 , j
+            string[,] oldMatrix1 = (string[,])matrix.Clone();
             if (isUniquePosition(node, index[0] + 1, index[1]))
             {
-                updatedMatrix = MoveTokens(matrix, "down");
-                this.node = new MatrixNode(updatedMatrix);
+                updatedMatrix = MoveTokens(oldMatrix1, "down");
+                MatrixNode newNode = new MatrixNode(updatedMatrix);
                 List<MatrixNode> list = node.Sucesors;
                 foreach (MatrixNode m in list)
                 {
-                    this.node.Sucesors.Add(m);
+                    newNode.Sucesors.Add(m);
                 }
-                this.node.Sucesors.Add(this.node);
-                this.openList.Add(this.node);
+                newNode.Sucesors.Add(newNode);
+                this.openList.Add(newNode);
             }
             //RIGHT => i, j+1
+            string[,] oldMatrix2 = (string[,])matrix.Clone();
             if (isUniquePosition(node, index[0], index[1]+1))
             {
-                updatedMatrix = MoveTokens(matrix, "right");
-                this.node = new MatrixNode(updatedMatrix);
+                updatedMatrix = MoveTokens(oldMatrix2, "right");
+                MatrixNode newNode = new MatrixNode(updatedMatrix);
                 List<MatrixNode> list = node.Sucesors;
                 foreach (MatrixNode m in list)
                 {
-                    this.node.Sucesors.Add(m);
+                    newNode.Sucesors.Add(m);
                 }
-                this.node.Sucesors.Add(this.node);
-                this.openList.Add(this.node);
+                newNode.Sucesors.Add(newNode);
+                this.openList.Add(newNode);
             }
             //LEFT => i, j-1
+            string[,] oldMatrix3 = (string[,])matrix.Clone();
             if (isUniquePosition(node, index[0], index[1] - 1))
             {
-                updatedMatrix = MoveTokens(matrix, "left");
-                this.node = new MatrixNode(updatedMatrix);
+                updatedMatrix = MoveTokens(oldMatrix3, "left");
+                MatrixNode newNode = new MatrixNode(updatedMatrix);
                 List<MatrixNode> list = node.Sucesors;
                 foreach (MatrixNode m in list)
                 {
-                    this.node.Sucesors.Add(m);
+                    newNode.Sucesors.Add(m);
                 }
-                this.node.Sucesors.Add(this.node);
-                this.openList.Add(this.node);
+                newNode.Sucesors.Add(newNode);
+                this.openList.Add(newNode);
             }
         }
 
         public bool isUniquePosition(MatrixNode node, int i, int j) {
             if (i >= 5) {
                 i = 4;
+                return false;
             }
             if (i < 0) {
                 i = 0;
+                return false;
             }
             if (j >= 4) {
                 j = 3;
+                return false;
             }
             if (j < 0) {
                 j = 0;
+                return false;
             }
             List<MatrixNode> listOfSucesors = node.Sucesors;
             foreach (MatrixNode m in listOfSucesors) {
@@ -180,72 +191,26 @@ namespace TowerOfBabelSolver.Model
             int[] index = getIndex(matrix);
             if (direction == "up")
             {
-                if (index[0] - 1 < 0)
-                {
-                    string temp1 = matrix.GetValue(1, index[1]).ToString(); string temp2 = matrix.GetValue(2, index[1]).ToString();
-                    string temp3 = matrix.GetValue(3, index[1]).ToString(); string temp4 = matrix.GetValue(4, index[1]).ToString();
-                    matrix.SetValue(temp1, 0, index[1]); matrix.SetValue(temp2, 1, index[1]);
-                    matrix.SetValue(temp3, 2, index[1]); matrix.SetValue(temp4, 3, index[1]);
-                    matrix.SetValue("X", 4, index[1]);
-                    return matrix;
-                }
-                else
-                {
-                    string temp1 = matrix.GetValue(index[0] - 1, index[1]).ToString();
-                    matrix.SetValue("X", index[0] - 1, index[1]); matrix.SetValue(temp1, index[0], index[1]);
-                    return matrix;
-                }
+                string temp1 = matrix.GetValue(index[0] - 1, index[1]).ToString();
+                matrix.SetValue("X", index[0] - 1, index[1]); matrix.SetValue(temp1, index[0], index[1]);
+                return matrix;
             }
             else if (direction == "down")
             {
-                if (index[0] + 1 >= 5)
-                {
-                    string temp1 = matrix.GetValue(0, index[1]).ToString(); string temp2 = matrix.GetValue(1, index[1]).ToString();
-                    string temp3 = matrix.GetValue(2, index[1]).ToString(); string temp4 = matrix.GetValue(3, index[1]).ToString();
-                    matrix.SetValue(temp1, 0, index[1]); matrix.SetValue(temp2, 1, index[1]);
-                    matrix.SetValue(temp3, 2, index[1]); matrix.SetValue(temp4, 3, index[1]);
-                    matrix.SetValue("X", 4, index[1]);
-                    return matrix;
-                }
-                else
-                {
-                    string temp1 = matrix.GetValue(index[0] + 1, index[1]).ToString();
-                    matrix.SetValue("X", index[0] + 1, index[1]); matrix.SetValue(temp1, index[0], index[1]);
-                    return matrix;
-                }
+                string temp1 = matrix.GetValue(index[0] + 1, index[1]).ToString();
+                matrix.SetValue("X", index[0] + 1, index[1]); matrix.SetValue(temp1, index[0], index[1]);
+                return matrix;
             }
             else if (direction == "right")
             {
-                if (index[1] + 1 >= 4)
-                {
-                    string temp1 = matrix.GetValue(index[0], 0).ToString(); string temp2 = matrix.GetValue(index[0], 1).ToString();
-                    string temp3 = matrix.GetValue(index[0], 2).ToString();
-                    matrix.SetValue("X", index[0], 0); matrix.SetValue(temp1, index[0], 1);
-                    matrix.SetValue(temp2, index[0], 2); matrix.SetValue(temp3, index[0], 3);
-                    return matrix;
-                }
-                else
-                {
-                    string temp1 = matrix.GetValue(index[0], index[1] + 1).ToString();
-                    matrix.SetValue("X", index[0], index[1] + 1); matrix.SetValue(temp1, index[0], index[1]);
-                    return matrix;
-                }
+                string temp1 = matrix.GetValue(index[0], index[1] + 1).ToString();
+                matrix.SetValue("X", index[0], index[1] + 1); matrix.SetValue(temp1, index[0], index[1]);
+                return matrix;
             }
             else {
-                if (index[1] - 1 < 0)
-                {
-                    string temp1 = matrix.GetValue(index[0], 1).ToString(); string temp2 = matrix.GetValue(index[0], 2).ToString();
-                    string temp3 = matrix.GetValue(index[0], 3).ToString();
-                    matrix.SetValue(temp1, index[0], 0); matrix.SetValue(temp2, index[0], 1);
-                    matrix.SetValue(temp3, index[0], 2); matrix.SetValue("X", index[0], 3);
-                    return matrix;
-                }
-                else
-                {
-                    string temp1 = matrix.GetValue(index[0], index[1] - 1).ToString();
-                    matrix.SetValue("X", index[0], index[1] - 1); matrix.SetValue(temp1, index[0], index[1]);
-                    return matrix;
-                }
+                string temp1 = matrix.GetValue(index[0], index[1] - 1).ToString();
+                matrix.SetValue("X", index[0], index[1] - 1); matrix.SetValue(temp1, index[0], index[1]);
+                return matrix;
             }
         }
 

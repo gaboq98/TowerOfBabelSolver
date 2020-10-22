@@ -19,7 +19,7 @@ namespace TowerOfBabelSolver.Model.Movements
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
-                    if (matrix[i,j] == "X")
+                    if (matrix[i, j] == "X")
                     {
                         return new int[] { i, j };
                     }
