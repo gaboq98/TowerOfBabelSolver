@@ -21,12 +21,13 @@ namespace TowerOfBabelSolver.Model
 
             // Display the file contents to the console. Variable text is a string.
             string[] sep = { "\n", "\t", ",", "\r", " " };
-            string[] stringArray = text.Split(sep , 16, StringSplitOptions.RemoveEmptyEntries);
+            string[] stringArray = text.Split(sep , 20, StringSplitOptions.RemoveEmptyEntries);
 
             return new string[,] {  { stringArray[0], stringArray[1], stringArray[2], stringArray[3], },
                                     { stringArray[4], stringArray[5], stringArray[6], stringArray[7], },
                                     { stringArray[8], stringArray[9], stringArray[10], stringArray[11], },
-                                    { stringArray[12], stringArray[13], stringArray[14], stringArray[15], } };
+                                    { stringArray[12], stringArray[13], stringArray[14], stringArray[15], },
+                                    { stringArray[16], stringArray[17], stringArray[18], stringArray[19], }};
         }
 
         public static string[,] LoadFinishMatrix()
@@ -37,12 +38,13 @@ namespace TowerOfBabelSolver.Model
 
             // Display the file contents to the console. Variable text is a string.
             string[] sep = { "\n", "\t", ",", "\r" };
-            string[] stringArray = text.Split(sep, 16, StringSplitOptions.RemoveEmptyEntries);
+            string[] stringArray = text.Split(sep, 20, StringSplitOptions.RemoveEmptyEntries);
 
             return new string[,] {  { stringArray[0], stringArray[1], stringArray[2], stringArray[3], },
                                     { stringArray[4], stringArray[5], stringArray[6], stringArray[7], },
                                     { stringArray[8], stringArray[9], stringArray[10], stringArray[11], },
-                                    { stringArray[12], stringArray[13], stringArray[14], stringArray[15], } };
+                                    { stringArray[12], stringArray[13], stringArray[14], stringArray[15], },
+                                    { stringArray[16], stringArray[17], stringArray[18], stringArray[19], } };
         }
 
     }
