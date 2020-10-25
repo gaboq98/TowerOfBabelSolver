@@ -14,7 +14,6 @@ namespace TowerOfBabelSolver.Model
         public string[,] StartMatrix{ get; set; }
         public string[,] FinishMatrix { get; set; }
 
-        int indexToRemove = -1;
 
         public Logic()
         {

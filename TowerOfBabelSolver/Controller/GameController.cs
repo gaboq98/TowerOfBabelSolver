@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using TowerOfBabelSolver.Model;
 using TowerOfBabelSolver.Model.Movements;
+using TowerOfBabelSolver.View;
 
 namespace TowerOfBabelSolver.Controller
 {
@@ -18,9 +20,12 @@ namespace TowerOfBabelSolver.Controller
         public FileManager FileManager { get; set; }
         public Logic GameLogic { get; set; }
 
+        public HelpWindow HelpWindow{ get; set; }
+
         public GameController(MainWindow startWindow)
         {
             StartWindow = startWindow;
+            HelpWindow = new HelpWindow();
             FileManager = new FileManager();
             initWindow();
             /*
@@ -34,6 +39,11 @@ namespace TowerOfBabelSolver.Controller
 
         private void initWindow()
         {
+            StartWindow.NextButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(NextButton));
+            StartWindow.StartButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(StartButton));
+            StartWindow.PreviousButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(PreviousButton));
+            StartWindow.HelpButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(HelpButton));
+            StartWindow.RestartButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(RestartButton));
             StartWindow.MoveLabel.Content = "=>     =>";
             StartWindow.NextButton.Visibility = Visibility.Hidden;
             StartWindow.PreviousButton.Visibility = Visibility.Hidden;
@@ -106,6 +116,33 @@ namespace TowerOfBabelSolver.Controller
                     }
                 }
             }
+        }
+
+        private void NextButton(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void StartButton(object sender, RoutedEventArgs e)
+        {
+            StartWindow.NextButton.Visibility = Visibility.Visible;
+            StartWindow.PreviousButton.Visibility = Visibility.Visible;
+            StartWindow.StartButton.Visibility = Visibility.Hidden;
+        }
+
+        private void PreviousButton(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void RestartButton(object sender, RoutedEventArgs e)
+        {
+            initWindow();
+        }
+
+        private void HelpButton(object sender, RoutedEventArgs e)
+        {
+            HelpWindow.Show();
         }
 
     }
