@@ -30,6 +30,7 @@ namespace TowerOfBabelSolver
         public MainWindow()
         {
             InitializeComponent();
+            CloseButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(CloseWindow));
             MakeColorsList();
             MakeStartMatrixList();
             MakeFinishMatrixList();
@@ -62,8 +63,7 @@ namespace TowerOfBabelSolver
                 { Label0x0, Label0x1, Label0x2, Label0x3 },
                 { Label1x0, Label1x1, Label1x2, Label1x3 },
                 { Label2x0, Label2x1, Label2x2, Label2x3 },
-                { Label3x0, Label3x1, Label3x2, Label3x3 },
-                { Label4x0, Label4x1, Label4x2, Label4x3 }
+                { Label3x0, Label3x1, Label3x2, Label3x3 }
             };
         }
 
@@ -73,9 +73,21 @@ namespace TowerOfBabelSolver
                 { LabelFinal0x0, LabelFinal0x1, LabelFinal0x2, LabelFinal0x3 },
                 { LabelFinal1x0, LabelFinal1x1, LabelFinal1x2, LabelFinal1x3 },
                 { LabelFinal2x0, LabelFinal2x1, LabelFinal2x2, LabelFinal2x3 },
-                { LabelFinal3x0, LabelFinal3x1, LabelFinal3x2, LabelFinal3x3 },
-                { LabelFinal4x0, LabelFinal4x1, LabelFinal4x2, LabelFinal4x3 }
+                { LabelFinal3x0, LabelFinal3x1, LabelFinal3x2, LabelFinal3x3 }
             };
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Cerrar la aplicacion?", "Salir", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                //do no stuff
+            }
+            else
+            {
+                System.Windows.Application.Current.Shutdown();
+            }
+            
         }
 
     }

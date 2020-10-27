@@ -1,4 +1,3 @@
-O,	O,	V,	O,
 B,	R,	B,	V,
 A,	R,	A,	B,
 R,	B,	R,	A,

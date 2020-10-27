@@ -122,5 +122,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\right-arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\left-arrow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

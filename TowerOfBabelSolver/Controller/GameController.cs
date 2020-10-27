@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,13 +21,14 @@ namespace TowerOfBabelSolver.Controller
         public MainWindow StartWindow { get; set; }
         public FileManager FileManager { get; set; }
         public Logic GameLogic { get; set; }
-
-        public HelpWindow HelpWindow{ get; set; }
+        public string StartPath { get; set; }
+        public string FinishPath { get; set; }
+        public int MoveCounter { get; set; }
 
         public GameController(MainWindow startWindow)
         {
             StartWindow = startWindow;
-            HelpWindow = new HelpWindow();
+            
             FileManager = new FileManager();
             initWindow();
             /*
@@ -44,11 +47,14 @@ namespace TowerOfBabelSolver.Controller
             StartWindow.PreviousButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(PreviousButton));
             StartWindow.HelpButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(HelpButton));
             StartWindow.RestartButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(RestartButton));
+            StartWindow.SaveButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(SaveButton));
+            StartWindow.LoadButton.AddHandler(Button.ClickEvent, new RoutedEventHandler(LoadButton));
             StartWindow.MoveLabel.Content = "=>     =>";
             StartWindow.NextButton.Visibility = Visibility.Hidden;
             StartWindow.PreviousButton.Visibility = Visibility.Hidden;
-            StartMatrixToGraphic(FileManager.LoadStartMatrix());
-            FinishMatrixToGraphic(FileManager.LoadFinishMatrix());
+            StartWindow.StartButton.Visibility = Visibility.Visible;
+            //StartMatrixToGraphic(FileManager.LoadStartMatrix());
+            //FinishMatrixToGraphic(FileManager.LoadFinishMatrix());
         }
 
         private void StartMatrixToGraphic(string[,] matrix)
@@ -60,9 +66,6 @@ namespace TowerOfBabelSolver.Controller
                     if (matrix[i,j] == "X")
                     {
                         StartWindow.StartMatrix[i, j].Background = StartWindow.Colors.ElementAt((int)COLORS.Black);
-                    } else if (matrix[i, j] == "O")
-                    {
-                        StartWindow.StartMatrix[i, j].Background = StartWindow.Colors.ElementAt((int)COLORS.Grey);
                     }
                     else if (matrix[i, j] == "V")
                     {
@@ -94,10 +97,6 @@ namespace TowerOfBabelSolver.Controller
                     {
                         StartWindow.FinishMatrix[i, j].Background = StartWindow.Colors.ElementAt((int)COLORS.Black);
                     }
-                    else if (matrix[i, j] == "O")
-                    {
-                        StartWindow.FinishMatrix[i, j].Background = StartWindow.Colors.ElementAt((int)COLORS.Grey);
-                    }
                     else if (matrix[i, j] == "V")
                     {
                         StartWindow.FinishMatrix[i, j].Background = StartWindow.Colors.ElementAt((int)COLORS.Green);
@@ -118,16 +117,62 @@ namespace TowerOfBabelSolver.Controller
             }
         }
 
-        private void NextButton(object sender, RoutedEventArgs e)
+        private void LoadButton(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("Desea cargar una configuracion nueva?", "Cargar", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                //do no stuff
+            }
+            else
+            {
+                int counter = 0;
+                MessageBox.Show("Elija configuracion inicial");
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    StartPath = openFileDialog.FileName;
+                    StartMatrixToGraphic(FileManager.LoadStartMatrix(openFileDialog.FileName));
+                }
+                MessageBox.Show("Elija configuracion final");
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    FinishPath = openFileDialog.FileName;
+                    FinishMatrixToGraphic(FileManager.LoadFinishMatrix(openFileDialog.FileName));
+                }
+                if (counter > 0)
+                {
+                    MessageBox.Show("Algo salió mal");
+                } else
+                {
+                    UpdateMoveLabel("   ");
+                }
+            }
+        }
 
+        private void SaveButton(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Desea guardar la configuracion actual?", "Guardar", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                //do no stuff
+            }
+            else
+            {
+                //do yes stuff
+            }
         }
 
         private void StartButton(object sender, RoutedEventArgs e)
         {
+            LoadButton(null, null);
             StartWindow.NextButton.Visibility = Visibility.Visible;
             StartWindow.PreviousButton.Visibility = Visibility.Visible;
             StartWindow.StartButton.Visibility = Visibility.Hidden;
+        }
+
+        private void NextButton(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void PreviousButton(object sender, RoutedEventArgs e)
@@ -137,12 +182,26 @@ namespace TowerOfBabelSolver.Controller
 
         private void RestartButton(object sender, RoutedEventArgs e)
         {
-            initWindow();
+            if (MessageBox.Show("Desea reiniciar", "Reiniciar", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                //do no stuff
+            }
+            else
+            {
+                initWindow();
+            }
+            
         }
 
         private void HelpButton(object sender, RoutedEventArgs e)
         {
-            HelpWindow.Show();
+            HelpWindow helpWindow = new HelpWindow();
+            helpWindow.Show();
+        }
+
+        private void UpdateMoveLabel(string text)
+        {
+            StartWindow.MoveLabel.Content = "=> " + text + " =>";
         }
 
     }

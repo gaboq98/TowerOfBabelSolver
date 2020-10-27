@@ -1,5 +1,4 @@
-X,	O,	O,	O,
-V,	R,	A,	B,
+X,	R,	A,	B,
 V,	R,	A,	B,
 V,	R,	A,	B,
 V,	R,	A,	B
