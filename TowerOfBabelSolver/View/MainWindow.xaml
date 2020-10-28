@@ -28,8 +28,8 @@
             </Polygon>
         </Canvas>
         <Label Content="Torre de Babilonia &#xD;&#xA;&#x9;      Puzzle" VerticalAlignment="Top" FontSize="58" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" FontFamily="Century Gothic" Margin="0,26,-0.2,0" HorizontalContentAlignment="Center" Height="143" HorizontalAlignment="Right" Width="525"/>
-        <Canvas Margin="139,251,711.2,192.2">
-            <Rectangle Fill="#FFC2C2C2" Canvas.Left="-36" Canvas.Top="-30" Width="280" Height="268" />
+        <Canvas Margin="139,257,711.2,186.2">
+            <Rectangle Fill="#FFC2C2C2" Canvas.Left="-36" Canvas.Top="-36" Width="280" Height="274" />
             <Label x:Name="Label1x0" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF56F025" Height="50" Width="50" Canvas.Top="51"/>
             <Label x:Name="Label2x0" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF56F025" Height="50" Width="50" Canvas.Top="103"/>
             <Label x:Name="Label3x0" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF56F025" Height="50" Width="50" Canvas.Top="155"/>
@@ -47,8 +47,8 @@
             <Label x:Name="Label0x2" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF4E90F1" Height="50" Width="50" Canvas.Left="102"/>
             <Label x:Name="Label0x3" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" Height="50" Width="50" Canvas.Left="154"/>
         </Canvas>
-        <Canvas Height="208" Canvas.Left="106" Canvas.Top="169" Width="204" Margin="689,251,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Rectangle Fill="#FFC2C2C2" Canvas.Left="-36" Canvas.Top="-30" Width="280" Height="269" />
+        <Canvas Height="208" Canvas.Left="106" Canvas.Top="169" Width="204" Margin="689,259,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Rectangle Fill="#FFC2C2C2" Canvas.Left="-36" Canvas.Top="-38" Width="280" Height="274" />
             <Label x:Name="LabelFinal1x0" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF56F025" Height="50" Width="50" Canvas.Top="51"/>
             <Label x:Name="LabelFinal2x0" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF56F025" Height="50" Width="50" Canvas.Top="103"/>
             <Label x:Name="LabelFinal3x0" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF56F025" Height="50" Width="50" Canvas.Top="155"/>
@@ -67,7 +67,7 @@
             <Label x:Name="LabelFinal0x3" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFC2C2C2" Height="50" Width="50" Canvas.Left="154"/>
 
         </Canvas>
-        <Label Name="MoveLabel" Content="=> E-3 =>" HorizontalAlignment="Left" Margin="349,332,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="335" FontFamily="Century Gothic" FontSize="48"/>
+        <Label Name="MoveLabel" Content="=> E-3 =>" HorizontalAlignment="Left" Margin="349,338,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Width="335" FontFamily="Century Gothic" FontSize="48"/>
         <Button 
             Style="{StaticResource RoundButtonTemplate}"
             BorderBrush="#fff"
@@ -95,7 +95,7 @@
             Content="Start"
             Background="Green" Margin="454,546,0,0" Width="126" FontFamily="Century Gothic" FontSize="20" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left"
             />
-        <StackPanel Height="26" Margin="0,0,525.2,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="530" Orientation="Horizontal" Background="#FFC2C2C2">
+        <StackPanel Height="26" Margin="0,0,525,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="530" Orientation="Horizontal" Background="#FFC2C2C2">
             <Button Name="LoadButton" Content="Load" Width="75" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18"/>
             <Button Name="SaveButton" Content="Save" Width="75" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18"/>
             <Button Name="RestartButton" Content="Restart" Width="75" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18"/>

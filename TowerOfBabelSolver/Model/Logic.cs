@@ -9,100 +9,43 @@ namespace TowerOfBabelSolver.Model
 {
     class Logic
     {
-        public List<MatrixNode> closedList = new List<MatrixNode>();
         public List<MatrixNode> openList = new List<MatrixNode>();
         public string[,] StartMatrix{ get; set; }
         public string[,] FinishMatrix { get; set; }
 
-
-        public Logic()
+        public Logic(string[,] start, string[,] finish)
         {
-            StartMatrix = FileManager.LoadStartMatrix();
-            FinishMatrix = FileManager.LoadFinishMatrix();
-        }
-
-        /*This is for validate the move*/
-        public bool isValidMove(int i,int j) {
-            if (i >= 5 || i < 0 || j >= 4 || j < 0)
-            {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-
-        public int[] getIndex(string[,] matrix) {
-            int[] index = new int[2];
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    if (matrix.GetValue(i, j).ToString() == "X") {
-                        index[0]=i;
-                        index[1]=j;
-                        break;
-                    }
-                }
-            }
-            return index;
+            StartMatrix = start;
+            FinishMatrix = finish;
         }
 
         /* A* algorithm */
-        public void aStartSearch() {
-            if (this.openList.Count == 0) {
-                MatrixNode newNode = new MatrixNode(StartMatrix);
-                newNode.Sucesors.Add(newNode);
-                AddChildren(newNode);
-            }
+        public MatrixNode aStartSearch() {
+            MatrixNode newNode = new MatrixNode(StartMatrix, FinishMatrix);
+            newNode.Sucesors.Add(newNode);
+            AddChildren(newNode);
             bool found = false;
             MatrixNode minNode = null;
             while (!found) {
-                minNode = CalculateMin();
-                if (minNode.calculateHeuristFunction() == 0)
-                {
+                minNode = openList[0];  // El minimo siempre es el primero: openList[0]
+                if (minNode.HeuristValue == 0)
                     found = true;
-                }
                 else
                 {
-                    int indexR = IndexToRemove(minNode.Id);
-                    if (indexR == -1)
-                    {
-                        Console.WriteLine("Hay un error");
-                        Console.WriteLine(string.Join(" ", minNode.Matrix));
-                    }
-                    else
-                    {
-                        openList.RemoveAt(indexR);
-                        AddChildren(minNode);
-                    }
+                    openList.RemoveAt(0);
+                    AddChildren(minNode);
                 }
             }
-            Console.WriteLine("Hay un error");
-        }
-
-        public MatrixNode CalculateMin() {
-            double minValue = 999;
-            MatrixNode minNode=null;
-            foreach (MatrixNode m in this.openList) {
-                double value = m.calculateEvaluationFunction();
-                if ( value <= minValue) {
-                    minValue = m.calculateEvaluationFunction();
-                    minNode = m; 
-                }
-            }
+            Console.WriteLine("Fin");
             return minNode;
         }
 
-        public int IndexToRemove(int id) {
-            for (int i = 0; i < this.openList.Count; i++) {
-                if (this.openList[i].Id == id) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
         public void AddChildren(MatrixNode node) {
-
+            string opposite;
+            if (node.Moves.Count > 0)
+                opposite = Movable.CalcOposite(node.Moves.Last());
+            else
+                opposite = "";
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 3; j++)
@@ -110,19 +53,90 @@ namespace TowerOfBabelSolver.Model
                     Movable aux = MovesFactory.GetInstance(i, j);
                     if (aux.IsValid(node.Matrix))
                     {
-                        int[] index = getIndex(aux.Move(node.Matrix));
-                        if (isUniquePosition(node, index[0], index[1]))
+                        if ( !opposite.Equals(aux.GetString()) )
                         {
-                            MatrixNode child = new MatrixNode(aux.Move(node.Matrix));
+                            string[,] movedMatrix = aux.Move(node.Matrix);
+                            MatrixNode child = new MatrixNode(movedMatrix, FinishMatrix);
                             child.Sucesors.AddRange(node.Sucesors);
                             child.Sucesors.Add(child);
                             child.Moves.AddRange(node.Moves);
                             child.Moves.Add(aux);
-                            openList.Add(child);
+                            child.calculateEvaluationFunction();
+                            AddInOrder(child);
                         }
                     }
                 }
             }
+        }
+
+        private void AddInOrder(MatrixNode child)
+        {
+            if (openList.Count == 0)
+            {
+                openList.Add(child);
+                return;
+            }
+            for (int i = 0; i < openList.Count; i++)
+            {
+                double value = child.Value;
+                if ( value < openList[i].Value)
+                {
+                    openList.Insert(i, child);
+                    return;
+                }
+            }
+            openList.Add(child);
+        }
+
+        public int[] getIndex(string[,] matrix)
+        {
+            int[] index = new int[2];
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (matrix.GetValue(i, j).ToString() == "X")
+                    {
+                        index[0] = i;
+                        index[1] = j;
+                        break;
+                    }
+                }
+            }
+            return index;
+        }
+
+        public MatrixNode CalculateMin()
+        {
+            double minValue = 999;
+            MatrixNode minNode = null;
+            foreach (MatrixNode m in this.openList)
+            {
+                double value = 0;//m.calculateEvaluationFunction();
+                if (value <= minValue)
+                {
+                    minValue = value;
+                    minNode = m;
+                }
+            }
+            return minNode;
+        }
+
+        public int IndexToRemove(int id)
+        {
+            for (int i = 0; i < this.openList.Count; i++)
+            {
+                if (this.openList[i].Id == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public bool IsValidMove(Movable move)
+        {
+            return false;
         }
 
         public bool isUniquePosition(MatrixNode node, int i, int j) {
@@ -133,33 +147,6 @@ namespace TowerOfBabelSolver.Model
                 }
             }
             return true;
-        }
-
-        public string[,] MoveTokens(string[,] matrix, string direction) {
-            int[] index = getIndex(matrix);
-            if (direction == "up")
-            {
-                string temp1 = matrix.GetValue(index[0] - 1, index[1]).ToString();
-                matrix.SetValue("X", index[0] - 1, index[1]); matrix.SetValue(temp1, index[0], index[1]);
-                return matrix;
-            }
-            else if (direction == "down")
-            {
-                string temp1 = matrix.GetValue(index[0] + 1, index[1]).ToString();
-                matrix.SetValue("X", index[0] + 1, index[1]); matrix.SetValue(temp1, index[0], index[1]);
-                return matrix;
-            }
-            else if (direction == "right")
-            {
-                string temp1 = matrix.GetValue(index[0], index[1] + 1).ToString();
-                matrix.SetValue("X", index[0], index[1] + 1); matrix.SetValue(temp1, index[0], index[1]);
-                return matrix;
-            }
-            else {
-                string temp1 = matrix.GetValue(index[0], index[1] - 1).ToString();
-                matrix.SetValue("X", index[0], index[1] - 1); matrix.SetValue(temp1, index[0], index[1]);
-                return matrix;
-            }
         }
 
     }

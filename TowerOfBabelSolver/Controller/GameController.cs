@@ -24,20 +24,14 @@ namespace TowerOfBabelSolver.Controller
         public string StartPath { get; set; }
         public string FinishPath { get; set; }
         public int MoveCounter { get; set; }
+        public MatrixNode MatrixSolution { get; set; }
 
         public GameController(MainWindow startWindow)
         {
             StartWindow = startWindow;
-            
+            MoveCounter = 0;
             FileManager = new FileManager();
             initWindow();
-            /*
-            GameLogic = new Logic();
-            var r = FileManager.LoadStartMatrix();
-            MatrixNode n = new MatrixNode(r);
-            GameLogic.aStartSearch();
-            Console.WriteLine("valor " + n.calculateHeuristFunction());
-            */
         }
 
         private void initWindow()
@@ -53,8 +47,6 @@ namespace TowerOfBabelSolver.Controller
             StartWindow.NextButton.Visibility = Visibility.Hidden;
             StartWindow.PreviousButton.Visibility = Visibility.Hidden;
             StartWindow.StartButton.Visibility = Visibility.Visible;
-            //StartMatrixToGraphic(FileManager.LoadStartMatrix());
-            //FinishMatrixToGraphic(FileManager.LoadFinishMatrix());
         }
 
         private void StartMatrixToGraphic(string[,] matrix)
@@ -168,16 +160,47 @@ namespace TowerOfBabelSolver.Controller
             StartWindow.NextButton.Visibility = Visibility.Visible;
             StartWindow.PreviousButton.Visibility = Visibility.Visible;
             StartWindow.StartButton.Visibility = Visibility.Hidden;
+            
+            GameLogic = new Logic(FileManager.LoadStartMatrix(StartPath), FileManager.LoadFinishMatrix(FinishPath));
+            MatrixSolution = GameLogic.aStartSearch();
+            if (MatrixSolution == null)
+                Console.WriteLine("Error");
+            if (MoveCounter + 1 < MatrixSolution.Sucesors.Count)
+            {
+                StartMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter].Matrix);
+                FinishMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter + 1].Matrix);
+                UpdateMoveLabel(MatrixSolution.Moves[MoveCounter].GetString());
+            }
         }
 
         private void NextButton(object sender, RoutedEventArgs e)
         {
-
+            if (MoveCounter + 1 <= MatrixSolution.Sucesors.Count-2)
+            {
+                MoveCounter++;
+                StartMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter].Matrix);
+                FinishMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter + 1].Matrix);
+                UpdateMoveLabel(MatrixSolution.Moves[MoveCounter].GetString());
+            }
+            else
+            {
+                MessageBox.Show("No más movimientos");
+            }
         }
 
         private void PreviousButton(object sender, RoutedEventArgs e)
         {
-            
+            if (MoveCounter - 1 >= 0)
+            {
+                MoveCounter--;
+                StartMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter].Matrix);
+                FinishMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter + 1].Matrix);
+                UpdateMoveLabel(MatrixSolution.Moves[MoveCounter].GetString());
+            }
+            else
+            {
+                MessageBox.Show("No más movimientos");
+            }
         }
 
         private void RestartButton(object sender, RoutedEventArgs e)

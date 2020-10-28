@@ -28,5 +28,22 @@ namespace TowerOfBabelSolver.Model.Movements
             return null;
         }
 
+        public static string CalcOposite(Movable move)
+        {
+            switch(move.GetString()[0])
+            {
+                case 'N':
+                    return "S-" +move.GetString()[2];
+                case 'S':
+                    return "N-" + move.GetString()[2];
+                case 'E':
+                    return "O-" + move.GetString()[2];
+                case 'O':
+                    return "E-" + move.GetString()[2];
+                default:
+                    return "";
+            }
+        }
+
     }
 }
