@@ -76,9 +76,14 @@ namespace TowerOfBabelSolver.Model
                 openList.Add(child);
                 return;
             }
+            double value = child.Value;
+            if (value > openList[openList.Count-1].Value)
+            {
+                openList.Add(child);
+            }
             for (int i = 0; i < openList.Count; i++)
             {
-                double value = child.Value;
+                
                 if ( value < openList[i].Value)
                 {
                     openList.Insert(i, child);

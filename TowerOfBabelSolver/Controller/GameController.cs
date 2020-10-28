@@ -1,15 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using TowerOfBabelSolver.Model;
-using TowerOfBabelSolver.Model.Movements;
 using TowerOfBabelSolver.View;
 
 namespace TowerOfBabelSolver.Controller
@@ -47,6 +42,9 @@ namespace TowerOfBabelSolver.Controller
             StartWindow.NextButton.Visibility = Visibility.Hidden;
             StartWindow.PreviousButton.Visibility = Visibility.Hidden;
             StartWindow.StartButton.Visibility = Visibility.Visible;
+            StartMatrixToGraphic(new string[,] { { "x", "R", "A", "B" }, { "V", "R", "A", "B" }, { "V", "R", "A", "B" }, { "V", "R", "A", "B" } });
+            FinishMatrixToGraphic(new string[,] { { "x", "R", "A", "B" }, { "V", "R", "A", "B" }, { "V", "R", "A", "B" }, { "V", "R", "A", "B" } });
+            UpdateMoveLabel("   ");
         }
 
         private void StartMatrixToGraphic(string[,] matrix)
@@ -111,12 +109,34 @@ namespace TowerOfBabelSolver.Controller
 
         private void LoadButton(object sender, RoutedEventArgs e)
         {
+            if (Load())
+            {
+                StartWindow.NextButton.Visibility = Visibility.Visible;
+                StartWindow.PreviousButton.Visibility = Visibility.Visible;
+                StartWindow.StartButton.Visibility = Visibility.Hidden;
+
+                GameLogic = new Logic(FileManager.LoadStartMatrix(StartPath), FileManager.LoadFinishMatrix(FinishPath));
+                MatrixSolution = GameLogic.aStartSearch();
+                if (MatrixSolution == null)
+                    Console.WriteLine("Error");
+                if (MoveCounter + 1 < MatrixSolution.Sucesors.Count)
+                {
+                    StartMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter].Matrix);
+                    FinishMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter + 1].Matrix);
+                    UpdateMoveLabel(MatrixSolution.Moves[MoveCounter].GetString());
+                }
+            }
+        }
+
+        private bool Load()
+        {
             if (MessageBox.Show("Desea cargar una configuracion nueva?", "Cargar", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
-                //do no stuff
+                return false;
             }
             else
             {
+                MoveCounter = 0;
                 int counter = 0;
                 MessageBox.Show("Elija configuracion inicial");
                 OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -135,41 +155,50 @@ namespace TowerOfBabelSolver.Controller
                 if (counter > 0)
                 {
                     MessageBox.Show("Algo salió mal");
-                } else
+                }
+                else
                 {
                     UpdateMoveLabel("   ");
                 }
+                return true;
             }
         }
 
         private void SaveButton(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Desea guardar la configuracion actual?", "Guardar", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBox.Show("Desea guardar la solución a la configuración actual?", "Guardar", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 //do no stuff
             }
             else
             {
-                //do yes stuff
+                string text = string.Join("\n", MatrixSolution.Moves.Select(x=>x.GetString()));
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.DefaultExt = "txt";
+                saveFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                if (saveFileDialog.ShowDialog() == true)
+                    File.WriteAllText(saveFileDialog.FileName, text);
             }
         }
 
         private void StartButton(object sender, RoutedEventArgs e)
         {
-            LoadButton(null, null);
-            StartWindow.NextButton.Visibility = Visibility.Visible;
-            StartWindow.PreviousButton.Visibility = Visibility.Visible;
-            StartWindow.StartButton.Visibility = Visibility.Hidden;
-            
-            GameLogic = new Logic(FileManager.LoadStartMatrix(StartPath), FileManager.LoadFinishMatrix(FinishPath));
-            MatrixSolution = GameLogic.aStartSearch();
-            if (MatrixSolution == null)
-                Console.WriteLine("Error");
-            if (MoveCounter + 1 < MatrixSolution.Sucesors.Count)
+            if (Load())
             {
-                StartMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter].Matrix);
-                FinishMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter + 1].Matrix);
-                UpdateMoveLabel(MatrixSolution.Moves[MoveCounter].GetString());
+                StartWindow.NextButton.Visibility = Visibility.Visible;
+                StartWindow.PreviousButton.Visibility = Visibility.Visible;
+                StartWindow.StartButton.Visibility = Visibility.Hidden;
+
+                GameLogic = new Logic(FileManager.LoadStartMatrix(StartPath), FileManager.LoadFinishMatrix(FinishPath));
+                MatrixSolution = GameLogic.aStartSearch();
+                if (MatrixSolution == null)
+                    Console.WriteLine("Error");
+                if (MoveCounter + 1 < MatrixSolution.Sucesors.Count)
+                {
+                    StartMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter].Matrix);
+                    FinishMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter + 1].Matrix);
+                    UpdateMoveLabel(MatrixSolution.Moves[MoveCounter].GetString());
+                }
             }
         }
 
@@ -211,7 +240,14 @@ namespace TowerOfBabelSolver.Controller
             }
             else
             {
-                initWindow();
+                StartWindow.NextButton.Visibility = Visibility.Hidden;
+                StartWindow.PreviousButton.Visibility = Visibility.Hidden;
+                StartWindow.StartButton.Visibility = Visibility.Visible;
+                MoveCounter = 0;
+                MatrixSolution = null;
+                StartMatrixToGraphic(new string[,] { {"X","R","A","B" },{ "V", "R", "A", "B" },{ "V", "R", "A", "B" }, { "V", "R", "A", "B" } });
+                FinishMatrixToGraphic(new string[,] { { "X", "R", "A", "B" }, { "V", "R", "A", "B" }, { "V", "R", "A", "B" }, { "V", "R", "A", "B" } });
+                UpdateMoveLabel("   ");
             }
             
         }
