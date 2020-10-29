@@ -12,11 +12,15 @@ namespace TowerOfBabelSolver.Model
         public List<MatrixNode> openList = new List<MatrixNode>();
         public string[,] StartMatrix{ get; set; }
         public string[,] FinishMatrix { get; set; }
+        public bool Found { get; set; }
+
+        static readonly object _locker = new object();
 
         public Logic(string[,] start, string[,] finish)
         {
             StartMatrix = start;
             FinishMatrix = finish;
+            Found = false;
         }
 
         /* A* algorithm */
@@ -27,13 +31,86 @@ namespace TowerOfBabelSolver.Model
             bool found = false;
             MatrixNode minNode = null;
             while (!found) {
-                minNode = openList[0];  // El minimo siempre es el primero: openList[0]
-                if (minNode.HeuristValue == 0)
+                lock (openList)
+                {
+                    minNode = openList[0];  // El minimo siempre es el primero: openList[0]
+                }
+                if (minNode.HeuristValue == 0 || Found)
+                {
                     found = true;
+                    Found = true;
+                }
                 else
                 {
-                    openList.RemoveAt(0);
-                    AddChildren(minNode);
+                    lock (openList)
+                    {
+                        openList.RemoveAt(0);
+                        AddChildren(minNode);
+                    }
+                }
+            }
+            Console.WriteLine("Fin");
+            return minNode;
+        }
+
+        public MatrixNode aStartSearchMax()
+        {
+            MatrixNode newNode = new MatrixNode(StartMatrix, FinishMatrix);
+            newNode.Sucesors.Add(newNode);
+            AddChildren(newNode);
+            bool found = false;
+            MatrixNode minNode = null;
+            while (!found)
+            {
+                lock (openList)
+                {
+                    minNode = openList[Convert.ToInt32(openList.Count * 0.95)];  // Maximo
+                }
+                if (minNode.HeuristValue == 0 || Found)
+                {
+                    found = true;
+                    Found = true;
+                }
+                else
+                {
+                    lock (openList)
+                    {
+                        openList.RemoveAt(openList.Count - 1);
+                        AddChildren(minNode);
+                    }
+                }
+            }
+            Console.WriteLine("Fin");
+            return minNode;
+        }
+
+        public MatrixNode aStartSearchMid()
+        {
+            MatrixNode newNode = new MatrixNode(StartMatrix, FinishMatrix);
+            newNode.Sucesors.Add(newNode);
+            AddChildren(newNode);
+            bool found = false;
+            MatrixNode minNode = null;
+            while (!found)
+            {
+                int mid;
+                lock (openList)
+                {
+                    mid = openList.Count;
+                    minNode = openList[Convert.ToInt32( mid * 0.85)];  // Mitad
+                }
+                if (minNode.HeuristValue == 0 || Found)
+                {
+                    found = true;
+                    Found = true;
+                }
+                else
+                {
+                    lock (openList)
+                    {
+                        openList.RemoveAt(mid / (mid / 2));
+                        AddChildren(minNode);
+                    }
                 }
             }
             Console.WriteLine("Fin");

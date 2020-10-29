@@ -32,7 +32,7 @@ namespace TowerOfBabelSolver.Model
         public double calculateEvaluationFunction() {
             double h = CalculateHeuristFunction();
             int g = calculateCost();
-            double f = g + (0.0667) * h;
+            double f = g + h;
             Value = f;
             return f;
         }

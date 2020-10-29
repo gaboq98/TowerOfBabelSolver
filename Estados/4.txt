@@ -1,0 +1,4 @@
+X,	R,	A,	V,
+V,	R,	A,	B,
+V,	R,	B,	B,
+R,	A,	A,	B

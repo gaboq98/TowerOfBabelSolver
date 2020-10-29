@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using TowerOfBabelSolver.Model;
@@ -20,11 +21,16 @@ namespace TowerOfBabelSolver.Controller
         public string FinishPath { get; set; }
         public int MoveCounter { get; set; }
         public MatrixNode MatrixSolution { get; set; }
+        public MatrixNode MatrixSolutionMin { get; set; }
+        public MatrixNode MatrixSolutionMax { get; set; }
+        public MatrixNode MatrixSolutionMid { get; set; }
+        public bool Found { get; set; }
 
         public GameController(MainWindow startWindow)
         {
             StartWindow = startWindow;
             MoveCounter = 0;
+            Found = true;
             FileManager = new FileManager();
             initWindow();
         }
@@ -114,17 +120,7 @@ namespace TowerOfBabelSolver.Controller
                 StartWindow.NextButton.Visibility = Visibility.Visible;
                 StartWindow.PreviousButton.Visibility = Visibility.Visible;
                 StartWindow.StartButton.Visibility = Visibility.Hidden;
-
-                GameLogic = new Logic(FileManager.LoadStartMatrix(StartPath), FileManager.LoadFinishMatrix(FinishPath));
-                MatrixSolution = GameLogic.aStartSearch();
-                if (MatrixSolution == null)
-                    Console.WriteLine("Error");
-                if (MoveCounter + 1 < MatrixSolution.Sucesors.Count)
-                {
-                    StartMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter].Matrix);
-                    FinishMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter + 1].Matrix);
-                    UpdateMoveLabel(MatrixSolution.Moves[MoveCounter].GetString());
-                }
+                ASerch();
             }
         }
 
@@ -188,17 +184,7 @@ namespace TowerOfBabelSolver.Controller
                 StartWindow.NextButton.Visibility = Visibility.Visible;
                 StartWindow.PreviousButton.Visibility = Visibility.Visible;
                 StartWindow.StartButton.Visibility = Visibility.Hidden;
-
-                GameLogic = new Logic(FileManager.LoadStartMatrix(StartPath), FileManager.LoadFinishMatrix(FinishPath));
-                MatrixSolution = GameLogic.aStartSearch();
-                if (MatrixSolution == null)
-                    Console.WriteLine("Error");
-                if (MoveCounter + 1 < MatrixSolution.Sucesors.Count)
-                {
-                    StartMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter].Matrix);
-                    FinishMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter + 1].Matrix);
-                    UpdateMoveLabel(MatrixSolution.Moves[MoveCounter].GetString());
-                }
+                ASerch();
             }
         }
 
@@ -261,6 +247,77 @@ namespace TowerOfBabelSolver.Controller
         private void UpdateMoveLabel(string text)
         {
             StartWindow.MoveLabel.Content = "=> " + text + " =>";
+        }
+
+        private void ASerch()
+        {
+            GameLogic = new Logic(FileManager.LoadStartMatrix(StartPath), FileManager.LoadFinishMatrix(FinishPath));
+
+            ThreadStart delegado1 = new ThreadStart(ASerchMin);
+            Thread hilo1 = new Thread(delegado1);
+            hilo1.Start();
+            ThreadStart delegado2 = new ThreadStart(ASerchMax);
+            Thread hilo2 = new Thread(delegado2);
+            hilo2.Start();
+            ThreadStart delegado3 = new ThreadStart(ASerchMid);
+            Thread hilo3 = new Thread(delegado3);
+            hilo3.Start();
+            while (Found)
+            {
+                // Busy waiting
+            }
+            Console.WriteLine("Hilos terminados");
+            if (MatrixSolutionMin != null)
+            {
+                MatrixSolution = MatrixSolutionMin;
+            } 
+            else if (MatrixSolutionMax != null)
+            {
+                MatrixSolution = MatrixSolutionMax;
+            } 
+            else if (MatrixSolutionMid != null)
+            {
+                MatrixSolution = MatrixSolutionMid;
+            }
+            if (MatrixSolution == null)
+                Console.WriteLine("Error");
+            if (MoveCounter + 1 < MatrixSolution.Sucesors.Count)
+            {
+                StartMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter].Matrix);
+                FinishMatrixToGraphic(MatrixSolution.Sucesors[MoveCounter + 1].Matrix);
+                UpdateMoveLabel(MatrixSolution.Moves[MoveCounter].GetString());
+            }
+        }
+
+        private void ASerchMin()
+        {
+            MatrixSolutionMin = GameLogic.aStartSearch();
+            Console.WriteLine("Min Fin");
+            if (MatrixSolutionMin != null)
+            {
+                Found = false;
+            }
+
+        }
+
+        private void ASerchMax()
+        {
+            MatrixSolutionMax = GameLogic.aStartSearchMax();
+            Console.WriteLine("Max Fin");
+            if (MatrixSolutionMax != null)
+            {
+                Found = false;
+            }
+        }
+
+        private void ASerchMid()
+        {
+            MatrixSolutionMid = GameLogic.aStartSearchMid();
+            Console.WriteLine("Mid Fin");
+            if (MatrixSolutionMid != null)
+            {
+                Found = false;
+            }
         }
 
     }
