@@ -15,36 +15,28 @@
     <Grid>
         <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" >
             <Polygon
-                Points="0,0 800,0 0,100">
+                Points="0,0 800,0 0,90">
                 <Polygon.Fill>
-                    <SolidColorBrush Color="Blue" Opacity="0.4"/>
+                    <SolidColorBrush Color="Blue" Opacity="0.3"/>
                 </Polygon.Fill>
             </Polygon>
             <Polygon
-                Points="0,0 800,0 800,200" Width="793">
+                Points="0,0 800,0 800,150" Width="793">
                 <Polygon.Fill>
                     <SolidColorBrush Color="White"/>
                 </Polygon.Fill>
             </Polygon>
         </Canvas>
-        <StackPanel Margin="0,0,400,0">
-            <TextBlock Margin="50,115,25,0" Foreground="Black" FontFamily="Century Gothic" FontSize="24">
-                Textoo
-            </TextBlock>
-            <TextBlock Margin="50,50,25,0" Foreground="Black" FontFamily="Century Gothic" FontSize="24">
-                Mas textooooo
-            </TextBlock>
+        <StackPanel Margin="0,0,433.6,0">
+            <TextBox x:Name="ConfigTextBox" Height="240" TextWrapping="Wrap" Background="{x:Null}" BorderBrush="{x:Null}" Margin="50,84,25,0" FontFamily="Century Gothic"
+                     Text="Configuracion" FontSize="14"/>
         </StackPanel>
-        <StackPanel Margin="400,0,0,0">
-            <TextBlock Margin="15,20,0,0" Foreground="Black" FontFamily="Century Gothic" FontSize="36">
+        <StackPanel Margin="365,0,-0.4,0">
+            <TextBlock Margin="15,15,0,0" Foreground="Black" FontFamily="Century Gothic" FontSize="36">
 			    Manual De Usuario
             </TextBlock>
-            <TextBlock Margin="25,50,50,0" Foreground="Black" FontFamily="Century Gothic" FontSize="24">
-                Aqui va texto
-            </TextBlock>
-            <TextBlock Margin="25,50,50,0" Foreground="Black" FontFamily="Century Gothic" FontSize="24">
-                aqui tambien
-            </TextBlock>
+            <TextBox x:Name="MovesTextBox" Height="277" TextWrapping="Wrap" Background="{x:Null}" BorderBrush="{x:Null}" Margin="25,25,24.8,0" FontFamily="Century Gothic"
+                Text="Configuracion" FontSize="14"/>
         </StackPanel>
     </Grid>
 </Window>

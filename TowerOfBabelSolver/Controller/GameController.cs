@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -168,7 +169,15 @@ namespace TowerOfBabelSolver.Controller
             }
             else
             {
-                string text = string.Join("\n", MatrixSolution.Moves.Select(x=>x.GetString()));
+                List<string> result = new List<string>();
+                for (int i = 0; i < MatrixSolution.Moves.Count; i++)
+                {
+                    result.Add(MatrixSolution.Sucesors[i].GetString());
+                    result.Add(MatrixSolution.Moves[i].GetString());
+                    result.Add("");
+                }
+                result.Add(MatrixSolution.Sucesors[MatrixSolution.Sucesors.Count-1].GetString());
+                string text = string.Join("\n", result);
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.DefaultExt = "txt";
                 saveFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -252,7 +261,8 @@ namespace TowerOfBabelSolver.Controller
         private void ASerch()
         {
             GameLogic = new Logic(FileManager.LoadStartMatrix(StartPath), FileManager.LoadFinishMatrix(FinishPath));
-
+            ASerchMin();
+            /*
             ThreadStart delegado1 = new ThreadStart(ASerchMin);
             Thread hilo1 = new Thread(delegado1);
             hilo1.Start();
@@ -265,7 +275,7 @@ namespace TowerOfBabelSolver.Controller
             while (Found)
             {
                 // Busy waiting
-            }
+            } */
             Console.WriteLine("Hilos terminados");
             if (MatrixSolutionMin != null)
             {

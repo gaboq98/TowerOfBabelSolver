@@ -28,6 +28,20 @@ namespace TowerOfBabelSolver.Model
             Moves = new List<Movable>();
         }
 
+        public string GetString()
+        {
+            string text = "";
+            for(int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    text += (matrix[i,j] + ", ") ; 
+                }
+                text += "\n";
+            }
+            return text;
+        }
+
         /**/
         public double calculateEvaluationFunction() {
             double h = CalculateHeuristFunction();

@@ -96,10 +96,10 @@
             Background="Green" Margin="454,546,0,0" Width="126" FontFamily="Century Gothic" FontSize="20" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left"
             />
         <StackPanel Height="26" Margin="0,0,525,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="530" Orientation="Horizontal" Background="#FFC2C2C2">
-            <Button Name="LoadButton" Content="Load" Width="75" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18"/>
-            <Button Name="SaveButton" Content="Save" Width="75" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18"/>
-            <Button Name="RestartButton" Content="Restart" Width="75" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18"/>
-            <Button Name="HelpButton" Content="Help" Width="75" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18"/>
+            <Button Name="LoadButton" Content="Cargar" Width="75" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18"/>
+            <Button Name="SaveButton" Content="Guardar" Width="96" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Margin="0,0,0,-0.4"/>
+            <Button Name="RestartButton" Content="Reiniciar" Width="86" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Margin="0,0,0,-0.4"/>
+            <Button Name="HelpButton" Content="Ayuda" Width="89" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Margin="0,0,0,-0.4"/>
         </StackPanel>
         <StackPanel Height="26" Margin="530,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="525" Orientation="Horizontal" Background="#FFC2C2C2" />
         <Button Name="CloseButton" Content=" X " HorizontalAlignment="Right" Margin="0,0,0.2,0" VerticalAlignment="Top" Width="50" Height="26" Background="Red" BorderBrush="Red" FontFamily="Century Gothic" FontSize="18" FontWeight="Bold"/>

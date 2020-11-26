@@ -60,11 +60,13 @@ namespace TowerOfBabelSolver.Model
             AddChildren(newNode);
             bool found = false;
             MatrixNode minNode = null;
+            int index;
             while (!found)
             {
                 lock (openList)
                 {
-                    minNode = openList[Convert.ToInt32(openList.Count * 0.95)];  // Maximo
+                    index = Convert.ToInt32(openList.Count * 0.75);
+                    minNode = openList[index];  // Maximo
                 }
                 if (minNode.HeuristValue == 0 || Found)
                 {
@@ -75,7 +77,7 @@ namespace TowerOfBabelSolver.Model
                 {
                     lock (openList)
                     {
-                        openList.RemoveAt(openList.Count - 1);
+                        openList.RemoveAt(index);
                         AddChildren(minNode);
                     }
                 }
@@ -91,13 +93,14 @@ namespace TowerOfBabelSolver.Model
             AddChildren(newNode);
             bool found = false;
             MatrixNode minNode = null;
+            int mid;
             while (!found)
             {
-                int mid;
+                
                 lock (openList)
                 {
-                    mid = openList.Count;
-                    minNode = openList[Convert.ToInt32( mid * 0.85)];  // Mitad
+                    mid = Convert.ToInt32(openList.Count * 0.5);
+                    minNode = openList[mid];  // Mitad
                 }
                 if (minNode.HeuristValue == 0 || Found)
                 {
@@ -108,7 +111,7 @@ namespace TowerOfBabelSolver.Model
                 {
                     lock (openList)
                     {
-                        openList.RemoveAt(mid / (mid / 2));
+                        openList.RemoveAt(mid);
                         AddChildren(minNode);
                     }
                 }
